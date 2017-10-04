@@ -1,9 +1,9 @@
-from is_kmp import wrap
+
+""" computes position of positive int (not arbitrary sequence) in infinite sequence"""
 
 
-""" computes position of number(not sequence) in infinite sequence"""
-
-def compute_position(number):  # number is positive int
+# number - positive int
+def compute_position(number):
     prev = number - 1
     d = len(str(prev))  # digits in previous number
     pos = (prev - 10 ** (d - 1) + 1) * d
@@ -13,55 +13,47 @@ def compute_position(number):  # number is positive int
     return pos + 1
 
 
+"""finds sequence position in infinite sequence"""
+
+
 # sequence - int
-def find_sequence(sequence):
+def find_sequence(sequence):  # sequence can't start from 0 as 'sequence' parameter is int
     str_s = str(sequence)
     n = len(str_s)
-    for i in range(1, n+1):  # test ints with number of digits(i) in [1;n]
-        min_start = 10**i
+    for i in range(1, n + 1):  # test ints with number of digits(i) in [1;n]
+        i_pow = 10 ** i
+        min_start = i_pow
         start_digit = 0
         for j in range(0, i):  # test if sequence starts from j'th digit of i-digit number
-            test_str = str_s[0:i-j]
+            test_str = str_s[0:i - j]
             start_num = int(test_str)
             if j == 0:
                 second_num = start_num + 1
             else:
-                second_num = int(str_s[i-j:i]) * 10**(i-j) + (start_num + 1) % 10**(i-j)
+                i_j_pow = 10 ** (i - j)
+                second_num = int(str_s[i - j:i]) * i_j_pow + (start_num + 1) % i_j_pow
                 if second_num == 0:
                     continue
             next_num = second_num
+
             while len(test_str) < n and test_str == str_s[:len(test_str)]:
-                    test_str += str(next_num)
-                    next_num += 1
+                test_str += str(next_num)
+                next_num += 1
 
             if test_str[0:n] == str_s and second_num - 1 < min_start:
                 min_start = second_num - 1
                 start_digit = j
 
-
-        if min_start != 10**i:  # was changed
-            shift = 0
+        if min_start != i_pow:  # if min was changed at least once, i.e. sequence was found
+            offset = 0
             if start_digit != 0:
-                shift = i - start_digit
+                offset = i - start_digit
                 min_start += 1
-            return compute_position(min_start) - shift
+            return compute_position(min_start) - offset
 
-
+    return 0  # error: sequence not found
 
 
 if __name__ == '__main__':
-    # mismatches = 0
-    # for k in range(13454657647352344, 13454657647352345):
-    #     my = find_sequence(k)
-    #     true = wrap(str(k))
-    #     # true = 1
-    #     # if k % 100 == 0:
-    #     #     print("step ", k)
-    #     if my != true:
-    #          # print("Failed!")
-    #         # print("My: ", my, " true: ", true)
-    #          mismatches += 1
-    # print("mismatches", mismatches)
-
-    k = 11111111111111111111111111111111111111111111111111
+    k = 111
     print(k, find_sequence(k))
