@@ -55,5 +55,5 @@ def find_sequence(sequence):  # sequence can't start from 0 as 'sequence' parame
 
 
 if __name__ == '__main__':
-    k = 111
+    k = 111  # very simple test
     print(k, find_sequence(k))

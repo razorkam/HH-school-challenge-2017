@@ -79,7 +79,7 @@ def bfs(island, m, n, visited, start_xy, heap):  # run breadth first search from
 
 if __name__ == '__main__':
 
-    isl = [
+    isl = [               # simple test
         [5, 3, 4, 5],
         [6, 2, 1, 4],
         [3, 1, 1, 4],
@@ -87,20 +87,3 @@ if __name__ == '__main__':
     ]
 
     print(get_water_volume(isl))
-
-
-def spoj():
-    try:
-        tests = input()
-        for i in range(int(tests)):
-            l = []
-            size = input().split(' ')
-            for j in range(int(size[0])):
-                row = list(map(int, input().split(' ')))
-                l.append(row)
-            print(get_water_volume(l))
-            input()
-    except EOFError:
-        return 0
-
-        # spoj()
